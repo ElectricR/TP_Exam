@@ -14,7 +14,9 @@ int main() {
     
     std::wregex sentence_regex(L"[^ ][^.?!]*[.!?]");
 
-    for (std::wsregex_iterator it = std::wsregex_iterator(line.begin(), line.end(), sentence_regex); it != std::wsregex_iterator(); ++it) {
+    for (std::wsregex_iterator it = 
+            std::wsregex_iterator(line.begin(), line.end(), sentence_regex); 
+            it != std::wsregex_iterator(); ++it) {
         std::wregex punct(L" *([!.?,;:-]) *");
         auto sentence = std::regex_replace((*it).str(), punct, L"$1 ");
         sentence[0] = std::toupper(sentence[0]);

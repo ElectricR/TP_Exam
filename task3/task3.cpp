@@ -23,17 +23,28 @@ int main() {
 
     int target = std::accumulate(matrix[0].begin(), matrix[0].end(), 0);
     for (auto i : std::ranges::views::iota(0, size)) {
-        auto col_range = std::ranges::views::iota(0, size) | std::ranges::views::transform([&matrix, &i](const int j) { return matrix[i][j]; });
-        if (!check(matrix[i], target) || !check({col_range.begin(), col_range.end()}, target)) {
+        auto col_range = std::ranges::views::iota(0, size) | 
+            std::ranges::views::transform([&matrix, &i](const int j) { 
+                    return matrix[i][j]; 
+                    });
+        if (!check(matrix[i], target) || 
+                !check({col_range.begin(), col_range.end()}, target)) {
             std::cout << "Not magical" << std::endl;
             return 0;
         }
     }
 
-    auto main_diag_range = std::ranges::views::iota(0, size) | std::ranges::views::transform([&matrix, &size](const int j) { return matrix[j][j]; });
-    auto side_diag_range = std::ranges::views::iota(0, size) | std::ranges::views::transform([&matrix, &size](const int j) { return matrix[j][size - j - 1]; });
+    auto main_diag_range = std::ranges::views::iota(0, size) | 
+        std::ranges::views::transform([&matrix, &size](const int j) { 
+                return matrix[j][j]; 
+                });
+    auto side_diag_range = std::ranges::views::iota(0, size) | 
+        std::ranges::views::transform([&matrix, &size](const int j) { 
+                return matrix[j][size - j - 1]; 
+                });
 
-    if (!check({main_diag_range.begin(), main_diag_range.end()}, target) || !check({side_diag_range.begin(), side_diag_range.end()}, target)) {
+    if (!check({main_diag_range.begin(), main_diag_range.end()}, target) || 
+            !check({side_diag_range.begin(), side_diag_range.end()}, target)) {
         std::cout << "Not magical" << std::endl;
         return 0;
     }

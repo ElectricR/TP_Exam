@@ -36,9 +36,6 @@ int main() {
                         temp /= current;
                         break;
                     }
-                    default: {
-                        break;
-                    }
                 }
             std::cout << temp << std::endl;
             }

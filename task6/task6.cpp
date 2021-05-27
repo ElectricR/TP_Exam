@@ -10,7 +10,8 @@
 #include <iomanip>
 
 auto get_range(std::vector<unsigned>& refs) {
-    return  std::ranges::views::iota(static_cast<size_t>(0), refs.size()) | std::ranges::views::transform([&refs](const size_t i) -> std::wstring { 
+    return std::ranges::views::iota(static_cast<size_t>(0), refs.size()) | 
+        std::ranges::views::transform([&refs](const size_t i) -> std::wstring { 
             std::wstringstream ss;
             ss << std::left << std::setw(8) << std::to_wstring(i + 1) + L'.' << std::right;
             ss << L'[' << std::setfill(L'0') << std::setw(2) << refs[i] << L']';
@@ -34,23 +35,27 @@ int main() {
 
     std::vector<unsigned> refs;
     std::wregex ref_pattern(L"\\[(\\d+)\\]");
-    for (auto it = std::wsregex_iterator(text.begin(), text.end(), ref_pattern); it != std::wsregex_iterator(); ++it) {
+    for (auto it = std::wsregex_iterator(text.begin(), text.end(), ref_pattern); 
+            it != std::wsregex_iterator(); ++it) {
         refs.emplace_back(std::stoul((*it)[1]));
     }
 
     std::wcout << "Cited sources:" << std::endl;
-    std::ranges::copy(get_range(refs).begin(), get_range(refs).end(), std::ostream_iterator<std::wstring, wchar_t>(std::wcout, L"\n"));
+    std::ranges::copy(get_range(refs).begin(), get_range(refs).end(), 
+            std::ostream_iterator<std::wstring, wchar_t>(std::wcout, L"\n"));
 
     std::wcout << std::endl;
     std::ranges::sort(refs);
     std::wcout << "Sorted cited sources:" << std::endl;
-    std::ranges::copy(get_range(refs).begin(), get_range(refs).end(), std::ostream_iterator<std::wstring, wchar_t>(std::wcout, L"\n"));
+    std::ranges::copy(get_range(refs).begin(), get_range(refs).end(), 
+            std::ostream_iterator<std::wstring, wchar_t>(std::wcout, L"\n"));
 
     auto last = std::unique(refs.begin(), refs.end());
     refs.erase(last, refs.end());
     std::wcout << std::endl;
     std::wcout << "Unique sorted cited sources:" << std::endl;
-    std::ranges::copy(get_range(refs).begin(), get_range(refs).end(), std::ostream_iterator<std::wstring, wchar_t>(std::wcout, L"\n"));
+    std::ranges::copy(get_range(refs).begin(), get_range(refs).end(), 
+            std::ostream_iterator<std::wstring, wchar_t>(std::wcout, L"\n"));
 
     
     return 0;
